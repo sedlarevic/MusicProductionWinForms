@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="FrmAddArtist.cs" />
+    <Compile Remove="FrmAddArtist.Designer.cs" />
+    <Compile Remove="FrmAddMusicVideo.cs" />
+    <Compile Remove="FrmAddMusicVideo.Designer.cs" />
+    <Compile Remove="FrmAddSong.cs" />
+    <Compile Remove="FrmAddSong.Designer.cs" />
+    <Compile Remove="FrmEditArtist.cs" />
+    <Compile Remove="FrmEditArtist.Designer.cs" />
+    <Compile Remove="FrmEditSong.cs" />
+    <Compile Remove="FrmEditSong.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="FrmAddArtist.resx" />
+    <EmbeddedResource Remove="FrmAddMusicVideo.resx" />
+    <EmbeddedResource Remove="FrmAddSong.resx" />
+    <EmbeddedResource Remove="FrmEditArtist.resx" />
+    <EmbeddedResource Remove="FrmEditSong.resx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj" />
+  </ItemGroup>
+
+</Project>
