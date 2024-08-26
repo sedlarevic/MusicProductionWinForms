@@ -320,7 +320,6 @@ namespace DBBroker
         public BindingList<T> Search<T>(SearchValue searchValue) where T : class, IEntity, new()
         {
             string searchQuery;
-
             //Pravimo instancu objekta preko refleksije
             Type type = typeof(T);
             ConstructorInfo constructor = type.GetConstructor(Type.EmptyTypes);
@@ -336,13 +335,29 @@ namespace DBBroker
             BindingList<T> objects = new BindingList<T>();
             SqlCommand cmd = connection.CreateCommand();
 
-            // Pravimo query za search
+            //if (string.IsNullOrEmpty(searchValue.Parameter))
+            //{
+            //    searchQuery = BuildSearchQuery(type, searchValue.Value);
+            //}
+            //else
+            //{
+            //    if (string.IsNullOrEmpty(searchValue.Value.ToString()))
+            //        searchQuery = string.Empty;
+            //    else
+            //        searchQuery = int.TryParse(searchValue.Value.ToString(), out _)
+            //            ? $"WHERE {searchValue.Parameter} LIKE '{searchValue.Value}'"
+            //            : $"WHERE {searchValue.Parameter} LIKE '%{searchValue.Value}%'";
+            //}
+
             if (string.IsNullOrEmpty(searchValue.Value.ToString()))
                 searchQuery = string.Empty;
             else
                 searchQuery = int.TryParse(searchValue.Value.ToString(), out _)
                     ? $"WHERE {searchValue.Parameter} LIKE '{searchValue.Value}'"
                     : $"WHERE {searchValue.Parameter} LIKE '%{searchValue.Value}%'";
+
+            // Pravimo query za search
+
 
             cmd.CommandText = $"SELECT * FROM {obj.TableName} {searchQuery}";
             SqlDataReader reader = cmd.ExecuteReader();
@@ -416,5 +431,50 @@ namespace DBBroker
             reader.Close();
             return objects;
         }
+        private string BuildSearchQuery(Type type, object searchValue, bool firstTime = true, string tableAlias = "", string parentAlias = "")
+        {
+            string searchQuery = "";
+            string alias = string.IsNullOrEmpty(tableAlias) ? type.Name : tableAlias;
+            string parentJoin = string.IsNullOrEmpty(parentAlias) ? "" : $"JOIN {type.Name} {alias} ON {parentAlias}.Id = {alias}.Id";
+
+            if (firstTime)
+            {
+                searchQuery = $"SELECT * FROM {type.Name} {alias} ";
+                if (!string.IsNullOrEmpty(parentJoin))
+                {
+                    searchQuery += $"{parentJoin} ";
+                }
+                searchQuery += "WHERE ";
+            }
+
+            foreach (var property in type.GetProperties())
+            {
+                if (property.Name == "TableName" || property.Name == "Values") continue;
+
+                var propertyValue = searchValue.ToString();
+                var column = $"{alias}.{property.Name}";
+
+                // Check if property is an IEntity type (i.e., foreign key)
+                if (typeof(IEntity).IsAssignableFrom(property.PropertyType))
+                {
+                    // Recursive call to handle nested entities
+                    string innerAlias = $"{alias}_{property.PropertyType.Name}";
+                    string innerQuery = BuildSearchQuery(property.PropertyType, searchValue, false, innerAlias, alias);
+
+                    searchQuery += $"EXISTS (SELECT 1 FROM {property.PropertyType.Name} {innerAlias} WHERE {innerAlias}.Id = {column} AND {innerQuery}) OR ";
+                }
+                else
+                {
+                    // Add condition for simple properties
+                    searchQuery += $"({column} LIKE '%{propertyValue}%') OR ";
+                }
+            }
+
+            // Remove the trailing " OR "
+            searchQuery = searchQuery.TrimEnd(" OR ".ToCharArray());
+
+            return searchQuery;
+        }
+
     }
 }

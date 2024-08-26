@@ -166,6 +166,31 @@ namespace Client
             }
             return res;
         }
+        internal Response Load(SearchValue searchValue)
+        {
+            Request req = new Request()
+            {
+                Operation = Operation.Load,
+                Argument = searchValue
+            };
+            Response res = new Response();
+            try
+            {
+                sender.Send(req);
+                res = (Response)receiver.Receive();
+
+                if (res.Exception != null)
+                {
+                    throw new ServerDisconnectedException("Server closed");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                res.Exception = ex;
+            }
+            return res;
+        }
         // ################################################################
     }
 }

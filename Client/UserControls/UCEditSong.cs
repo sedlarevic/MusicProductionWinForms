@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -219,7 +220,14 @@ namespace Client.UserControls
                 //pravimo objekat klase song iz iz izabranog reda
                 Song songOriginal = new Song();
                 DataGridViewRow selectedRow = dgvSong.SelectedRows[0];
-                songOriginal = loadSong(Int32.Parse(selectedRow.Cells["Id"].Value.ToString()));
+                //songOriginal = loadSong(Int32.Parse(selectedRow.Cells["Id"].Value.ToString()));
+                SearchValue sv = new SearchValue
+                {
+                    Parameter = "Id",
+                    Value = Int32.Parse(selectedRow.Cells["Id"].Value.ToString()),
+                    Type = typeof(Song).AssemblyQualifiedName
+                };
+                songOriginal = (Song)LoadSongController.Instance.LoadSong(sv);
                 //pravimo objekat klase song iz podataka iz cmb-a, textboxova...
                 Song songNew = new Song();
                 songNew.Name = txtSongName.Text;
@@ -320,7 +328,14 @@ namespace Client.UserControls
                 //btnEditSong.Enabled = true;
                 //MessageBox.Show("Successful load of a song", "Loading song successful..", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DataGridViewRow selectedRow = dgvSong.SelectedRows[0];
-                Song song = loadSong(Int32.Parse(selectedRow.Cells["Id"].Value.ToString()));
+                SearchValue sv = new SearchValue
+                {
+                    Parameter = "Id",
+                    Value = Int32.Parse(selectedRow.Cells["Id"].Value.ToString()),
+                    Type = typeof(Song).AssemblyQualifiedName
+                };
+                Song song = (Song)LoadSongController.Instance.LoadSong(sv);
+                //Song song = loadSong(Int32.Parse(selectedRow.Cells["Id"].Value.ToString()));
                 if(song == null)
                 {
                     MessageBox.Show("Unsuccessful load of a song", "Loading song unsuccessful..", MessageBoxButtons.OK, MessageBoxIcon.Error);

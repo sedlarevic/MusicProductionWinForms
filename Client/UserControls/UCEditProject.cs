@@ -232,7 +232,14 @@ namespace Client.UserControls
                 newProject.MusicProducer = cmbMusicProducer.SelectedItem as MusicProducer;
                 newProject.CreationDate = (DateTime)dgvProjectRow.Cells["CreationDate"].Value;
                 //uzimamo originalan projekat
-                Project originalProject = loadProject(Int32.Parse(dgvProjectRow.Cells["Id"].Value.ToString()));
+                //Project originalProject = loadProject(Int32.Parse(dgvProjectRow.Cells["Id"].Value.ToString()));
+                SearchValue sv = new SearchValue
+                {
+                    Parameter = "Id",
+                    Value = Int32.Parse(dgvProjectRow.Cells["Id"].Value.ToString()),
+                    Type = typeof(Project).AssemblyQualifiedName
+                };
+                Project originalProject = (Project)LoadProjectController.Instance.LoadProject(sv);
                 //editujemo
                 EditValue evProject = new EditValue();
                 evProject.EditedValue = newProject;
@@ -251,7 +258,15 @@ namespace Client.UserControls
                 //uzimamo sve pesme koje su prvobitno na projektu
                 foreach (DataGridViewRow row in dgvSong.SelectedRows)
                 {
-                    Song s = row.DataBoundItem as Song;
+                    SearchValue sValue = new SearchValue()
+                    {
+                        Value = Int32.Parse(row.Cells["Id"].Value.ToString()),
+                        Parameter = "Id",
+                        Type = typeof(Song).AssemblyQualifiedName
+                    };
+                    
+                    Song s = (Song)LoadSongController.Instance.LoadSong(sValue);
+                    //Song s = row.DataBoundItem as Song;
                     songsOriginal.Add(s);
                 }
                 //uzimamo sve pesme koje su sad na projektu, nakon edita
@@ -271,7 +286,6 @@ namespace Client.UserControls
                     };
                     songsNew.Add(sNew);
                 }
-
                 //editujemo pesme
                 EditValue evSong = new EditValue();
                 evSong.OriginalValue = songsOriginal;
@@ -367,7 +381,14 @@ namespace Client.UserControls
                 //
                 //uzimamo izabran projekat i loadujemo u textboxove i comboboxove
                 DataGridViewRow selectedRow = dgvProject.SelectedRows[0];
-                Project project = loadProject(Int32.Parse(selectedRow.Cells["Id"].Value.ToString()));
+                //Project project = loadProject(Int32.Parse(selectedRow.Cells["Id"].Value.ToString()));
+                SearchValue svProject = new SearchValue
+                {
+                    Parameter = "Id",
+                    Value = Int32.Parse(selectedRow.Cells["Id"].Value.ToString()),
+                    Type = typeof(Project).AssemblyQualifiedName
+                };
+                Project project = (Project)LoadProjectController.Instance.LoadProject(svProject);
                 if(project == null)
                 {
                     MessageBox.Show("Unsuccessful load of a project", "System unsuccessfully loaded the project", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -417,7 +438,7 @@ namespace Client.UserControls
         {
             try
             {
-                if ( dgvSongsOnProject.SelectedRows.Count <= 0)
+                if (dgvSongsOnProject.SelectedRows.Count <= 0)
                 {
                     MessageBox.Show("no rows selected");
                     return;
@@ -429,7 +450,14 @@ namespace Client.UserControls
                 }
                 //editovanje
                 DataGridViewRow selected = dgvSongsOnProject.SelectedRows[0];
-                Song sOriginal = loadSong(Int32.Parse(selected.Cells["Id"].Value.ToString()));
+                //Song sOriginal = loadSong(Int32.Parse(selected.Cells["Id"].Value.ToString()));
+                SearchValue sv = new SearchValue
+                {
+                    Parameter = "Id",
+                    Value = Int32.Parse(selected.Cells["Id"].Value.ToString()),
+                    Type = typeof(Song).AssemblyQualifiedName
+                };
+                Song sOriginal = (Song)LoadSongController.Instance.LoadSong(sv);
                 Song sNew = new Song()
                 {
                     Id = sOriginal.Id,

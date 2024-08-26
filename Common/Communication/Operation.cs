@@ -14,6 +14,7 @@ namespace Common.Communication
         Search,
         Edit,
         Add,
+        Load,
 
     }
 }

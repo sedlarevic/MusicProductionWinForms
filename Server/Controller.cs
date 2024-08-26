@@ -119,5 +119,16 @@ namespace Server
 
             return searchSO.Result;
         }
+        public object Load(SearchValue searchValue)
+        {
+            Type type = Type.GetType(searchValue.Type);
+            string nameSO = "Load" + type.Name + "SO";
+            Type SOType = Type.GetType("Server.SystemOperations." + nameSO);
+            ConstructorInfo constructor = SOType.GetConstructor(Type.EmptyTypes);
+            BaseSO loadSO = (BaseSO)constructor.Invoke(null);
+            loadSO.ExecuteTemplate(searchValue);
+
+            return loadSO.Result;
+        }
     }
 }

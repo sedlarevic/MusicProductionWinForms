@@ -168,19 +168,17 @@ namespace Client.UserControls
         {
             if (dgvArtist.SelectedRows.Count > 0)
             {
-                //DataGridViewRow selectedRow = dgvArtist.SelectedRows[0];
-                //txtFirstName.Enabled = true;
-                //txtFirstName.Text = selectedRow.Cells["FirstName"].Value.ToString();
-                //txtLastName.Enabled = true;
-                //txtLastName.Text = selectedRow.Cells["LastName"].Value.ToString();
-                //txtStageName.Enabled = true;
-                //txtStageName.Text = selectedRow.Cells["StageName"].Value.ToString();
-                //txtId.Text = selectedRow.Cells["Id"].Value.ToString();
-                //btnEdit.Enabled = true;
                 DataGridViewRow selectedRow = dgvArtist.SelectedRows[0];
                 if (selectedRow != null) 
                 {
-                    Artist a = loadArtist(Int32.Parse(selectedRow.Cells["Id"].Value.ToString()));
+                    //Artist a = loadArtist(Int32.Parse(selectedRow.Cells["Id"].Value.ToString()));
+                    SearchValue sv = new SearchValue
+                    {
+                        Parameter = "Id",
+                        Value = Int32.Parse(selectedRow.Cells["Id"].Value.ToString()),
+                        Type = typeof(Artist).AssemblyQualifiedName
+                    };
+                    Artist a = (Artist)LoadArtistController.Instance.LoadArtist(sv);
                     if (a == null)
                     {
                         MessageBox.Show("System loaded the artist.", "System loaded the artist.", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -214,7 +212,14 @@ namespace Client.UserControls
                 };
                 //uzimamo artista koji je izabran iz dgv-a
                 DataGridViewRow selectedRow = dgvArtist.SelectedRows[0];
-                Artist artistOriginal = loadArtist(Int32.Parse(selectedRow.Cells["Id"].Value.ToString()));
+                //Artist artistOriginal = loadArtist(Int32.Parse(selectedRow.Cells["Id"].Value.ToString()));
+                SearchValue sv = new SearchValue
+                {
+                    Parameter = "Id",
+                    Value = Int32.Parse(selectedRow.Cells["Id"].Value.ToString()),
+                    Type = typeof(Artist).AssemblyQualifiedName
+                };
+                Artist artistOriginal = (Artist)LoadArtistController.Instance.LoadArtist(sv);
                 //editujemo izabranog artista
                 EditValue ev = new EditValue
                 {

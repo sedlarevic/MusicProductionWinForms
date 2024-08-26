@@ -84,6 +84,13 @@ namespace Server
                     else
                         r.Result = resultSearch;
                     break;
+                case Operation.Load:
+                    object resultLoad = Controller.Instance.Load((dynamic)req.Argument);
+                    if (resultLoad != null && resultLoad.GetType() == typeof(Exception))
+                        r.Exception = (Exception)resultLoad;
+                    else
+                        r.Result = resultLoad;
+                    break;
             }
             
             return r;
