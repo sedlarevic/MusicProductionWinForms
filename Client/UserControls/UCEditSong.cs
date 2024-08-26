@@ -342,7 +342,6 @@ namespace Client.UserControls
                     return;
                 }
                 loadData(song);
-                MessageBox.Show("Successful load of a song", "Loading song successful..", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
             else

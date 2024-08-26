@@ -320,7 +320,6 @@ namespace Client.UserControls
                     else
                         row.Selected = false;
                 }
-                MessageBox.Show("Successful edit of a project!", "System was successful in editing a project", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (ServerDisconnectedException ex)
             {
@@ -421,8 +420,6 @@ namespace Client.UserControls
                 }
 
                 btnRemove.Enabled = true;
-                MessageBox.Show("Successful load of a project", "System successfully loaded the project", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
             }
             catch (ServerDisconnectedException ex)
             {
