@@ -46,7 +46,6 @@ namespace Client.UserControls
                 dgvSong.Columns["TableName"].Visible = false;
             }
         }
-
         private bool Validation()
         {
 
@@ -76,21 +75,13 @@ namespace Client.UserControls
             return b1 && b2 && b3;
         }
         private void loadSongDgv()
-        {
-            SearchValue sv = new SearchValue();
-            sv.Parameter = "Name";
-            sv.Value = "";
-            sv.Type = typeof(Song).AssemblyQualifiedName;
-            dgvSong.DataSource = SearchSongController.Instance.SearchSong(sv);
+        {        
+            dgvSong.DataSource = LoadAllSongsController.Instance.LoadAllSongs();
             dgvSongCleanup();
         }
         private void loadDirectorCMB()
-        {
-            SearchValue sv = new SearchValue();
-            sv.Parameter = "StageName";
-            sv.Value = "";
-            sv.Type = typeof(Director).AssemblyQualifiedName;
-            cmbDirector.DataSource = SearchDirectorController.Instance.SearchDirector(sv);
+        {          
+            cmbDirector.DataSource = LoadAllDirectorsController.Instance.LoadAllDirectors();
         }
         private void btnAdd_Click(object sender, EventArgs e)
         {
@@ -119,7 +110,8 @@ namespace Client.UserControls
                 sv.Parameter = "Name";
                 sv.Value = "";
                 sv.Type = typeof(MusicVideo).AssemblyQualifiedName;
-                BindingList<MusicVideo> result = (BindingList<MusicVideo>)SearchMusicVideoController.Instance.SearchMusicVideo(sv);
+                //BindingList<MusicVideo> result = (BindingList<MusicVideo>)SearchMusicVideoController.Instance.SearchMusicVideo(sv);
+                BindingList<MusicVideo> result = (BindingList<MusicVideo>)LoadAllMusicVideosController.Instance.LoadAllMusicVideos();
                 //ovo ispod je redudantno ali vrv radi tako da sam ostavio za sad
                 BindingList<MusicVideo> musicVideos = new BindingList<MusicVideo>();
                 foreach (object obj in result)

@@ -40,6 +40,7 @@ namespace Client.Controller
                 BindingList<Project> a = (BindingList<Project>)res.Result;
                 if (a != null && a.Count == 1)
                 {
+                    
                     return a.ElementAt(0);
                 }
                 return null;

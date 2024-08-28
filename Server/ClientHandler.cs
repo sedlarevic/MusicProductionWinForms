@@ -91,6 +91,13 @@ namespace Server
                     else
                         r.Result = resultLoad;
                     break;
+                case Operation.LoadAll:
+                    object resultLoadAll = Controller.Instance.LoadAll((dynamic)req.Argument);
+                    if (resultLoadAll != null && resultLoadAll.GetType() == typeof(Exception))
+                        r.Exception = (Exception)resultLoadAll;
+                    else
+                        r.Result = resultLoadAll;
+                    break;
             }
             
             return r;

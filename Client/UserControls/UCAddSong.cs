@@ -86,46 +86,23 @@ namespace Client.UserControls
         }
         private void loadArtistCMB()
         {
-            SearchValue sv = new SearchValue()
-            {
-                Type = typeof(Artist).AssemblyQualifiedName,
-                Parameter = "StageName",
-                Value = ""
-            };
-
-            cmbArtist.DataSource = SearchArtistController.Instance.SearchArtist(sv);
+            cmbArtist.DataSource = LoadAllArtistsController.Instance.LoadAllArtists();
         }
         private void loadMusicVideoCMB()
-        {
-            SearchValue sv = new SearchValue()
-            {
-                Type = typeof(MusicVideo).AssemblyQualifiedName,
-                Parameter = "Name",
-                Value = ""
-            };
-            cmbMusicVideo.DataSource = SearchMusicVideoController.Instance.SearchMusicVideo(sv);
+        {     
+            cmbMusicVideo.DataSource = LoadAllMusicVideosController.Instance.LoadAllMusicVideos();
         }
         private void loadGenresCMB()
         {
             cmbGenre.DataSource = Enum.GetValues(typeof(SongGenre));
         }
         private void loadMusicProducerCMB()
-        {
-            SearchValue sv = new SearchValue()
-            {
-                Parameter = "stageName",
-                Value = "",
-                Type = typeof(MusicProducer).AssemblyQualifiedName
-            };
-            cmbMusicProducer.DataSource = SearchMusicProducerController.Instance.SearchMusicProducer(sv);
+        {          
+            cmbMusicProducer.DataSource = LoadAllMusicProducersController.Instance.LoadAllMusicProducers();
         }
         private void loadProjectCMB()
-        {
-            SearchValue sv = new SearchValue();
-            sv.Parameter="Name";
-            sv.Value = "";
-            sv.Type=typeof(Project).AssemblyQualifiedName;
-            cmbProject.DataSource = SearchProjectController.Instance.SearchProject(sv);
+        {          
+            cmbProject.DataSource = LoadAllProjectsController.Instance.LoadAllProjects();
         }
         private void btnAddSong_Click(object sender, EventArgs e)
         {

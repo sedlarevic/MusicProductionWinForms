@@ -111,48 +111,28 @@ namespace Client.UserControls
 
         }
         private void loadMusicProducerCMB()
-        {
-            SearchValue sv = new SearchValue();
-            sv.Parameter = "stageName";
-            sv.Value = "";
-            sv.Type = typeof(MusicProducer).AssemblyQualifiedName;
-            cmbMusicProducer.DataSource = SearchMusicProducerController.Instance.SearchMusicProducer(sv);
+        {            
+            cmbMusicProducer.DataSource = LoadAllMusicProducersController.Instance.LoadAllMusicProducers();
         }
         private void loadMusicVideoCMB()
         {
-            SearchValue sv = new SearchValue();
-            sv.Parameter = "Name";
-            sv.Value = "";
-            sv.Type = typeof(MusicVideo).AssemblyQualifiedName;
-            cmbMusicVideo.DataSource = SearchMusicVideoController.Instance.SearchMusicVideo(sv);
+            cmbMusicVideo.DataSource = LoadAllMusicVideosController.Instance.LoadAllMusicVideos();
         }
         private void loadArtistCMB()
-        {
-            SearchValue sv = new SearchValue();
-            sv.Parameter = "stageName";
-            sv.Value = "";
-            sv.Type = typeof(Artist).AssemblyQualifiedName;
-            cmbArtist.DataSource = SearchArtistController.Instance.SearchArtist(sv);
+        {           
+            cmbArtist.DataSource = LoadAllArtistsController.Instance.LoadAllArtists();
         }
         private void loadProjectCMB()
-        {
-            SearchValue sv=new SearchValue();
-            sv.Parameter = "Name";
-            sv.Value = "";
-            sv.Type = typeof(Project).AssemblyQualifiedName;
-            cmbProject.DataSource=SearchProjectController.Instance.SearchProject(sv);
+        {           
+            cmbProject.DataSource=LoadAllProjectsController.Instance.LoadAllProjects();
         }
         private void loadGenreCMB()
         {
             cmbGenre.DataSource = Enum.GetValues(typeof(SongGenre));
         }
         private void loadSongDgv()
-        {
-            SearchValue sv = new SearchValue();
-            sv.Parameter = "Name";
-            sv.Value = "";
-            sv.Type = typeof(Song).AssemblyQualifiedName;
-            dgvSong.DataSource = SearchSongController.Instance.SearchSong(sv);
+        {            
+            dgvSong.DataSource = LoadAllSongsController.Instance.LoadAllSongs();
             dgvSongCleanup();
         }
         private Song loadSong(int idSong)
@@ -293,40 +273,6 @@ namespace Client.UserControls
         { 
             if (dgvSong.SelectedRows.Count == 1 && dgvSong.SelectedRows[0]!=null)
             {
-                //DataGridViewRow selectedRow = dgvSong.SelectedRows[0];
-                //txtSongId.Text = selectedRow.Cells["Id"].Value.ToString();
-
-                //txtSongName.Text = selectedRow.Cells["Name"].Value.ToString();
-                //txtSongName.Enabled = true;
-
-                //txtBPM.Text = selectedRow.Cells["BPM"].Value.ToString();
-                //txtBPM.Enabled = true;
-
-                //cmbArtist.Enabled = true;
-                //Artist selectedArtist = selectedRow.Cells["Artist"].Value as Artist;
-                //cmbArtist.DisplayMember = "StageName";
-                //cmbArtist.SelectedItem = selectedArtist;
-
-                //cmbMusicProducer.Enabled = true;
-                //MusicProducer selectedProducer = selectedRow.Cells["MusicProducer"].Value as MusicProducer;
-                //cmbMusicProducer.DisplayMember = "StageName";
-                //cmbMusicProducer.SelectedItem = selectedProducer;
-
-                //cmbMusicVideo.Enabled = true;
-                //MusicVideo selectedVideo = selectedRow.Cells["MusicVideo"].Value as MusicVideo;
-                //cmbMusicVideo.DisplayMember = "Name";
-                //cmbMusicVideo.SelectedItem = selectedVideo;
-
-                //cmbProject.Enabled = true;
-                //Project selectedProject = selectedRow.Cells["Project"].Value as Project;
-                //cmbProject.DisplayMember = "Name";
-                //cmbProject.SelectedItem = selectedProject;
-
-                //cmbGenre.Enabled = true;
-                //SongGenre selectedGenre = (SongGenre)selectedRow.Cells["Genre"].Value;
-                //cmbGenre.SelectedItem = selectedGenre;
-                //btnEditSong.Enabled = true;
-                //MessageBox.Show("Successful load of a song", "Loading song successful..", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DataGridViewRow selectedRow = dgvSong.SelectedRows[0];
                 SearchValue sv = new SearchValue
                 {
@@ -335,12 +281,13 @@ namespace Client.UserControls
                     Type = typeof(Song).AssemblyQualifiedName
                 };
                 Song song = (Song)LoadSongController.Instance.LoadSong(sv);
-                //Song song = loadSong(Int32.Parse(selectedRow.Cells["Id"].Value.ToString()));
                 if(song == null)
                 {
                     MessageBox.Show("Unsuccessful load of a song", "Loading song unsuccessful..", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+                
+
                 loadData(song);
 
             }

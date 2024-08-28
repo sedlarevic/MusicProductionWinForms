@@ -69,7 +69,7 @@ namespace Client.UserControls
         }
         private void DgvLoad()
         {
-            var ds = SearchArtist();
+            var ds = LoadAllArtistsController.Instance.LoadAllArtists();
             if (ds != null)
             {
                 
@@ -171,7 +171,6 @@ namespace Client.UserControls
                 DataGridViewRow selectedRow = dgvArtist.SelectedRows[0];
                 if (selectedRow != null) 
                 {
-                    //Artist a = loadArtist(Int32.Parse(selectedRow.Cells["Id"].Value.ToString()));
                     SearchValue sv = new SearchValue
                     {
                         Parameter = "Id",

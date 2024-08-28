@@ -19,7 +19,7 @@ namespace Server.SystemOperations
         protected override void ExecuteConcreteOperation(object parameter = null)
         {
             if (parameter is LoginValue<T> loginValue)
-                Result = broker.Login(loginValue);
+                Result = broker.Select(loginValue);
         }
 
     }

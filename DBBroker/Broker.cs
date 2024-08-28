@@ -43,7 +43,7 @@ namespace DBBroker
         {
             connection.BeginTransaction();
         }
-        public T Login<T>(LoginValue<T> loginValue) where T: IEntity, new()
+        public T Select<T>(LoginValue<T> loginValue) where T: IEntity, new()
         {
             //određivanje imena klase iz loginValue
             string className = typeof(T).Name;

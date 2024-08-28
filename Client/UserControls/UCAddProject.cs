@@ -85,29 +85,17 @@ namespace Client.UserControls
         }
         private void loadArtistCMB()
         {
-            SearchValue sv = new SearchValue();
-            sv.Parameter = "stageName";
-            sv.Value = "";
-            sv.Type = typeof(Artist).AssemblyQualifiedName;
-            cmbArtist.DataSource = SearchArtistController.Instance.SearchArtist(sv);
+            cmbArtist.DataSource = LoadAllArtistsController.Instance.LoadAllArtists();
             cmbArtist.DisplayMember = "StageName";
         }
         private void loadMusicProducerCMB()
         {
-            SearchValue sv = new SearchValue();
-            sv.Parameter = "stageName";
-            sv.Value = "";
-            sv.Type = typeof(MusicProducer).AssemblyQualifiedName;
-            cmbMusicProducer.DataSource = SearchMusicProducerController.Instance.SearchMusicProducer(sv);
+            cmbMusicProducer.DataSource = LoadAllMusicProducersController.Instance.LoadAllMusicProducers();
             cmbMusicProducer.DisplayMember = "StageName";
         }
         private void loadSongDgv()
-        {
-            SearchValue sv = new SearchValue();
-            sv.Parameter = "Name";
-            sv.Value = "";
-            sv.Type = typeof(Song).AssemblyQualifiedName;
-            dgvSong.DataSource = SearchSongController.Instance.SearchSong(sv);
+        {          
+            dgvSong.DataSource = LoadAllSongsController.Instance.LoadAllSongs();
             dgvSongCleanup();
         }
         private void btnAddProject_Click(object sender, EventArgs e)
@@ -133,12 +121,8 @@ namespace Client.UserControls
                     Debug.WriteLine("error while adding project");
                     return;
                 }
-                //zovemo projekte da uzmemo poslednjeg clana
-                SearchValue sv = new SearchValue();
-                sv.Parameter = "Name";
-                sv.Value = "";
-                sv.Type = typeof(Project).AssemblyQualifiedName;
-                BindingList<Project> result = (BindingList<Project>)SearchProjectController.Instance.SearchProject(sv);
+                //zovemo projekte da uzmemo poslednjeg clana                
+                BindingList<Project> result = (BindingList<Project>)LoadAllProjectsController.Instance.LoadAllProjects();
                 //ovo je redudantno, ali radi tako da necu da diram za sad
                 BindingList<Project> projects = new BindingList<Project>();
 
@@ -188,9 +172,6 @@ namespace Client.UserControls
                     ev.Type = typeof(Song).AssemblyQualifiedName;
                     EditSongController.Instance.EditSong(ev);
                     loadSongDgv();                    
-                
-                
-
             }
             catch (ServerDisconnectedException ex)
             {

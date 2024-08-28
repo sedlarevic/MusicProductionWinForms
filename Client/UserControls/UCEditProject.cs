@@ -109,39 +109,23 @@ namespace Client.UserControls
             return b1 && b2 && b3 && b4;
         }
         private void loadSongDgv()
-        {
-            SearchValue sv = new SearchValue();
-            sv.Parameter = "Name";
-            sv.Value = "";
-            sv.Type = typeof(Song).AssemblyQualifiedName;
-            dgvSong.DataSource = SearchSongController.Instance.SearchSong(sv);
+        {           
+            dgvSong.DataSource = LoadAllSongsController.Instance.LoadAllSongs();
             dgvSongCleanup();
         }
         private void loadProjectDgv()
         {
-            SearchValue sv = new SearchValue();
-            sv.Parameter = "Name";
-            sv.Value = "";
-            sv.Type = typeof(Project).AssemblyQualifiedName;
-            dgvProject.DataSource = SearchProjectController.Instance.SearchProject(sv);
+            dgvProject.DataSource = LoadAllProjectsController.Instance.LoadAllProjects();
             dgvProjectCleanup();     
         }
         private void loadArtistCMB()
-        {
-            SearchValue sv = new SearchValue();
-            sv.Parameter = "stageName";
-            sv.Value = "";
-            sv.Type = typeof(Artist).AssemblyQualifiedName;
-            cmbArtist.DataSource = SearchArtistController.Instance.SearchArtist(sv);
+        {           
+            cmbArtist.DataSource = LoadAllArtistsController.Instance.LoadAllArtists();
             cmbArtist.DisplayMember = "StageName";
         }
         private void loadMusicProducerCMB()
         {
-            SearchValue sv = new SearchValue();
-            sv.Parameter = "stageName";
-            sv.Value = "";
-            sv.Type = typeof(MusicProducer).AssemblyQualifiedName;
-            cmbMusicProducer.DataSource = SearchMusicProducerController.Instance.SearchMusicProducer(sv);
+            cmbMusicProducer.DataSource = LoadAllMusicProducersController.Instance.LoadAllMusicProducers();
             cmbMusicProducer.DisplayMember = "StageName";
         }
         // ############################
@@ -369,13 +353,8 @@ namespace Client.UserControls
                     return;
                 }     
                 //ucitavamo song dgv
-                SearchValue svSong = new SearchValue()
-                {
-                    Value = "",
-                    Parameter = "Name",
-                    Type = typeof(Song).AssemblyQualifiedName
-                };
-                dgvSong.DataSource = SearchSongController.Instance.SearchSong(svSong);
+                
+                dgvSong.DataSource = LoadAllSongsController.Instance.LoadAllSongs();
                 dgvSongCleanup();
                 //
                 //uzimamo izabran projekat i loadujemo u textboxove i comboboxove
@@ -393,6 +372,7 @@ namespace Client.UserControls
                     MessageBox.Show("Unsuccessful load of a project", "System unsuccessfully loaded the project", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+                MessageBox.Show("Successful load of project", "Load of project successful..", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 loadProjectDetails(project);
                 //
                 //ucitavamo pesme projekta
