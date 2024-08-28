@@ -31,6 +31,7 @@ namespace Server
         private void FrmServer_FormClosed(object sender, FormClosedEventArgs e)
         {
             Environment.Exit(0);
+            
         }
     }
 }

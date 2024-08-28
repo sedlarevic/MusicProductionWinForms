@@ -131,8 +131,9 @@ namespace Client.UserControls
             cmbGenre.DataSource = Enum.GetValues(typeof(SongGenre));
         }
         private void loadSongDgv()
-        {            
+        {
             dgvSong.DataSource = LoadAllSongsController.Instance.LoadAllSongs();
+            //dgvSong.DataSource = upitSaJoinom();
             dgvSongCleanup();
         }
         private Song loadSong(int idSong)
@@ -295,6 +296,44 @@ namespace Client.UserControls
             {
                 MessageBox.Show("Unsuccessful load of a song", "Loading song unsuccessful..", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private BindingList<Song> upitSaJoinom()
+        {
+            //U loadSongDGV() ti je poziv metode, zovi metodu pri paljenju forme, msm da je tako najbolje
+            //prvi element po kom trazis
+            SearchValue svDirector = new SearchValue
+            {
+                Type = typeof(Director).AssemblyQualifiedName,
+                Parameter = "StageName",
+                Value = "stef4n"
+            };  
+            //trazis prvi element koji je vezan za tog
+            BindingList<Director> dList =(BindingList<Director>)SearchDirectorController.Instance.SearchDirector(svDirector);
+            Director d = dList.ElementAt(0);
+            int directorId = d.Id;
+            SearchValue svMusicVideo = new SearchValue
+            {
+                Type = typeof(MusicVideo).AssemblyQualifiedName,
+                Parameter = "Director",
+                Value = d.Id.ToString()
+            };
+            //uzimas sve elemente onog objekta koji treba da se prikaze pa filtriras
+            BindingList<MusicVideo> mvList = (BindingList<MusicVideo>)SearchMusicVideoController.Instance.SearchMusicVideo(svMusicVideo);
+            BindingList<Song> allSongs = (BindingList<Song>)LoadAllSongsController.Instance.LoadAllSongs();
+            BindingList<Song> songs = new BindingList<Song>();
+            //filtriras
+            foreach(Song s in allSongs)
+            {
+                foreach(MusicVideo mv in mvList)
+                {
+                    if(s.MusicVideo.Id == mv.Id)
+                    {
+                        songs.Add(s);
+                    }
+                }
+            }
+            return songs;
+
         }
     }
 }

@@ -24,6 +24,8 @@ namespace Client.Controller
                 return instance;
             }
         }
+
+
         public object EditSong(EditValue ev)
         {
             Response res = Communication.Instance.Edit(ev);
