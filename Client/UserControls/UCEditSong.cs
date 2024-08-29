@@ -29,6 +29,7 @@ namespace Client.UserControls
                 loadArtistCMB();
                 cmbArtist.Enabled = false;
                 cmbArtist.DisplayMember = "StageName";
+                cmbArtist.ValueMember = "Id";
 
                 loadGenreCMB();
                 cmbGenre.Enabled = false;
@@ -36,16 +37,20 @@ namespace Client.UserControls
                 loadMusicProducerCMB();
                 cmbMusicProducer.Enabled = false;
                 cmbMusicProducer.DisplayMember = "StageName";
+                cmbMusicProducer.ValueMember = "Id";
 
                 loadMusicVideoCMB();
                 cmbMusicVideo.Enabled = false;
                 cmbMusicVideo.DisplayMember = "Description";
-
+                cmbMusicVideo.ValueMember = "Id";
                 loadProjectCMB();
                 cmbProject.Enabled = false;
                 cmbProject.DisplayMember = "Name";
+                cmbProject.ValueMember = "Id";
 
                 loadSongDgv();
+                //dgvSong.DataSource = JoinSearchController.Instance.JoinSearch();
+                dgvSongCleanup();
                 
             }
             catch (ServerDisconnectedException ex)
@@ -167,21 +172,26 @@ namespace Client.UserControls
             txtBPM.Text = song.BPM.ToString();
             txtBPM.Enabled = true;
 
-            cmbArtist.Enabled = true;
             cmbArtist.DisplayMember = "StageName";
-            cmbArtist.SelectedItem = song.Artist;
+            cmbArtist.Enabled = true;
+            //cmbArtist.SelectedItem = song.Artist;
+            cmbArtist.SelectedValue = song.Artist.Id;
 
-            cmbMusicProducer.Enabled = true;
             cmbMusicProducer.DisplayMember = "StageName";
-            cmbMusicProducer.SelectedItem = song.MusicProducer;
+            cmbMusicProducer.Enabled = true;
+            //cmbMusicProducer.SelectedItem = song.MusicProducer;
+            cmbMusicProducer.SelectedValue = song.MusicProducer.Id;
 
-            cmbMusicVideo.Enabled = true;
             cmbMusicVideo.DisplayMember = "Name";
-            cmbMusicVideo.SelectedItem = song.MusicVideo;
+            cmbMusicVideo.Enabled = true;           
+            //cmbMusicVideo.SelectedItem = song.MusicVideo;
+            cmbMusicVideo.SelectedValue = song.MusicVideo.Id;
 
-            cmbProject.Enabled = true;
             cmbProject.DisplayMember = "Name";
-            cmbProject.SelectedItem = song.Project;
+            cmbProject.Enabled = true;            
+            //cmbProject.SelectedItem = song.Project;           
+            cmbProject.SelectedValue = song.Project.Id;
+            
 
             cmbGenre.Enabled = true;
             cmbGenre.SelectedItem = song.Genre;

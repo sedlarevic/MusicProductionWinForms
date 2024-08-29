@@ -15,7 +15,8 @@ namespace Common.Communication
         Edit,
         Add,
         Load,
-        LoadAll
+        LoadAll,
+        JoinSearch
 
     }
 }

@@ -141,5 +141,17 @@ namespace Server
 
             return loadAllSO.Result;
         }
+
+        public object JoinSearch()
+        {            
+            string nameSO = "JoinSearchSO";
+            Type SOType = Type.GetType("Server.SystemOperations." + nameSO);
+            ConstructorInfo constructor = SOType.GetConstructor(Type.EmptyTypes);
+            BaseSO joinSearchSO = (BaseSO)constructor.Invoke(null);
+            joinSearchSO.ExecuteTemplate();
+            return joinSearchSO.Result;
+        }
+
+
     }
 }

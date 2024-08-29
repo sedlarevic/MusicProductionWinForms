@@ -216,6 +216,31 @@ namespace Client
             }
             return res;
         }
+        internal Response JoinSearch()
+        {
+            Request req = new Request()
+            {
+                Operation = Operation.JoinSearch,
+                Argument = null
+            };
+            Response res = new Response();
+            try
+            {
+                sender.Send(req);
+                res = (Response)receiver.Receive();
+
+                if (res.Exception != null)
+                {
+                    throw new ServerDisconnectedException("Server closed");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                res.Exception = ex;
+            }
+            return res;
+        }
         // ################################################################
     }
 }

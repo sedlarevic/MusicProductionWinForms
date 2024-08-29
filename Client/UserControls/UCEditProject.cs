@@ -21,10 +21,8 @@ namespace Client.UserControls
             try
             {
                 InitializeComponent();
-
                 loadArtistCMB();
-                loadMusicProducerCMB();
-                
+                loadMusicProducerCMB();               
                 loadProjectDgv();
 
                 txtId.Enabled = false;
@@ -122,11 +120,13 @@ namespace Client.UserControls
         {           
             cmbArtist.DataSource = LoadAllArtistsController.Instance.LoadAllArtists();
             cmbArtist.DisplayMember = "StageName";
+            cmbArtist.ValueMember = "Id";
         }
         private void loadMusicProducerCMB()
         {
             cmbMusicProducer.DataSource = LoadAllMusicProducersController.Instance.LoadAllMusicProducers();
             cmbMusicProducer.DisplayMember = "StageName";
+            cmbMusicProducer.ValueMember = "Id";
         }
         // ############################
         private Project loadProject(int idProject)
@@ -162,10 +162,12 @@ namespace Client.UserControls
             cmbArtist.Enabled = true;
             cmbArtist.SelectedItem = project.Artist;
             cmbArtist.DisplayMember = "StageName";
+            cmbArtist.SelectedValue = project.Artist.Id;
 
             cmbMusicProducer.Enabled = true;
             cmbMusicProducer.SelectedItem = project.MusicProducer;
             cmbMusicProducer.DisplayMember = "StageName";
+            cmbMusicProducer.SelectedValue= project.MusicProducer.Id;
         }
         private Song loadSong(int idSong)
         {

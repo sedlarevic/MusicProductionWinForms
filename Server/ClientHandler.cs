@@ -98,6 +98,13 @@ namespace Server
                     else
                         r.Result = resultLoadAll;
                     break;
+                case Operation.JoinSearch:
+                    object resultJoinSearch = Controller.Instance.JoinSearch();
+                    if (resultJoinSearch != null && resultJoinSearch.GetType() == typeof(Exception))
+                        r.Exception = (Exception)resultJoinSearch;
+                    else
+                        r.Result = resultJoinSearch;
+                    break;
             }
             
             return r;
