@@ -15,6 +15,8 @@ namespace Client.UserControls
 {
     public partial class UCEditArtist : UserControl
     {
+        public int loadedIndexOfArtist;
+        public int loadedIndexRowOfDgv;
         public UCEditArtist()
         {
             try
@@ -24,7 +26,7 @@ namespace Client.UserControls
                 txtFirstName.Enabled = false;
                 txtLastName.Enabled = false;
                 txtStageName.Enabled = false;
-                txtId.Enabled = false;
+                //txtId.Enabled = false;
                 DgvLoad();
                 
             }catch (ServerDisconnectedException ex)
@@ -160,7 +162,7 @@ namespace Client.UserControls
             txtLastName.Text = artist.LastName;
             txtStageName.Enabled = true;
             txtStageName.Text = artist.StageName;
-            txtId.Text = artist.Id.ToString();
+            //txtId.Text = artist.Id.ToString();
             btnEdit.Enabled = true;
         }
         //###################
@@ -185,6 +187,8 @@ namespace Client.UserControls
                     }
                     loadData(a);
                     MessageBox.Show("System loaded the artist.", "System loaded the artist.",MessageBoxButtons.OK,MessageBoxIcon.Information);
+                    loadedIndexOfArtist = a.Id;
+                    loadedIndexRowOfDgv = selectedRow.Index;
                     return;
                 }
                 MessageBox.Show("System couldn't load the artist.", "System couldn't load the artist.", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -202,23 +206,24 @@ namespace Client.UserControls
                     return;
                 }
                 //kreiramo artista preko teksta iz textboxova
-                Artist artistNew = new Artist()
-                {
-                    Id = Int32.Parse(txtId.Text),
-                    FirstName = txtFirstName.Text,
-                    LastName = txtLastName.Text,
-                    StageName = txtStageName.Text,
-                };
+                
                 //uzimamo artista koji je izabran iz dgv-a
-                DataGridViewRow selectedRow = dgvArtist.SelectedRows[0];
+                
                 //Artist artistOriginal = loadArtist(Int32.Parse(selectedRow.Cells["Id"].Value.ToString()));
                 SearchValue sv = new SearchValue
                 {
                     Parameter = "Id",
-                    Value = Int32.Parse(selectedRow.Cells["Id"].Value.ToString()),
+                    Value = loadedIndexOfArtist,
                     Type = typeof(Artist).AssemblyQualifiedName
                 };
                 Artist artistOriginal = (Artist)LoadArtistController.Instance.LoadArtist(sv);
+                Artist artistNew = new Artist()
+                {
+                    Id = Int32.Parse(artistOriginal.Id.ToString()),
+                    FirstName = txtFirstName.Text,
+                    LastName = txtLastName.Text,
+                    StageName = txtStageName.Text,
+                };
                 //editujemo izabranog artista
                 EditValue ev = new EditValue
                 {
@@ -227,10 +232,9 @@ namespace Client.UserControls
                     EditedValue = artistNew
                 };
                 EditArtistController.Instance.EditArtist(ev);
-                int indexOfSelectedRow = selectedRow.Index;
                 //ucitavamo dgv opet
                 DgvLoad();                
-                dgvArtist.Rows[indexOfSelectedRow].Selected = true;
+                dgvArtist.Rows[loadedIndexRowOfDgv].Selected = true;
             }
             catch(ServerDisconnectedException ex)
             {

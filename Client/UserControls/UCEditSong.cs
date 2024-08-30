@@ -16,15 +16,18 @@ namespace Client.UserControls
 {
     public partial class UCEditSong : UserControl
     {
+        public int loadedIndexOfSong;
+        public int loadedIndexRowOfDgv;
         public UCEditSong()
         {
+
             try
             {
                 InitializeComponent();
-
+                loadedIndexOfSong = -1;
                 txtBPM.Enabled = false;
                 txtSongName.Enabled = false;
-                txtSongId.Enabled = false;
+                //txtSongId.Enabled = false;
 
                 loadArtistCMB();
                 cmbArtist.Enabled = false;
@@ -41,15 +44,17 @@ namespace Client.UserControls
 
                 loadMusicVideoCMB();
                 cmbMusicVideo.Enabled = false;
-                cmbMusicVideo.DisplayMember = "Description";
+                cmbMusicVideo.DisplayMember = "Name";
+                
                 cmbMusicVideo.ValueMember = "Id";
+                
                 loadProjectCMB();
                 cmbProject.Enabled = false;
                 cmbProject.DisplayMember = "Name";
-                cmbProject.ValueMember = "Id";
+                
+                cmbProject.ValueMember = "Id";               
 
                 loadSongDgv();
-                //dgvSong.DataSource = JoinSearchController.Instance.JoinSearch();
                 dgvSongCleanup();
                 
             }
@@ -121,15 +126,19 @@ namespace Client.UserControls
         }
         private void loadMusicVideoCMB()
         {
-            cmbMusicVideo.DataSource = LoadAllMusicVideosController.Instance.LoadAllMusicVideos();
+            BindingList<MusicVideo> musicVideos = (BindingList<MusicVideo>)LoadAllMusicVideosController.Instance.LoadAllMusicVideos();
+            musicVideos.Add(new MusicVideo() { Name = "(Empty)" });
+            cmbMusicVideo.DataSource = musicVideos;
         }
         private void loadArtistCMB()
         {           
             cmbArtist.DataSource = LoadAllArtistsController.Instance.LoadAllArtists();
         }
         private void loadProjectCMB()
-        {           
-            cmbProject.DataSource=LoadAllProjectsController.Instance.LoadAllProjects();
+        {
+            BindingList<Project> projects = (BindingList<Project>)LoadAllProjectsController.Instance.LoadAllProjects();
+            projects.Add(new Project() { Name = "(Empty)" });
+            cmbProject.DataSource = projects;
         }
         private void loadGenreCMB()
         {
@@ -165,7 +174,7 @@ namespace Client.UserControls
         private void loadData(Song song)
         {
             DataGridViewRow selectedRow = dgvSong.SelectedRows[0];
-            txtSongId.Text = song.Id.ToString();
+            //txtSongId.Text = song.Id.ToString();
             txtSongName.Text = song.Name;
             txtSongName.Enabled = true;
 
@@ -183,14 +192,20 @@ namespace Client.UserControls
             cmbMusicProducer.SelectedValue = song.MusicProducer.Id;
 
             cmbMusicVideo.DisplayMember = "Name";
-            cmbMusicVideo.Enabled = true;           
+            cmbMusicVideo.Enabled = true;
             //cmbMusicVideo.SelectedItem = song.MusicVideo;
-            cmbMusicVideo.SelectedValue = song.MusicVideo.Id;
+            if (song.MusicVideo != null && !song.MusicVideo.Name.Equals("(Empty)"))
+                cmbMusicVideo.SelectedValue = song.MusicVideo.Id;
+            else
+                cmbMusicVideo.SelectedIndex = cmbMusicVideo.Items.Count-1;
 
             cmbProject.DisplayMember = "Name";
-            cmbProject.Enabled = true;            
-            //cmbProject.SelectedItem = song.Project;           
-            cmbProject.SelectedValue = song.Project.Id;
+            cmbProject.Enabled = true;
+            //cmbProject.SelectedItem = song.Project;
+            if (song.Project != null && !song.Project.Name.Equals("Empty"))
+                cmbProject.SelectedValue = song.Project.Id;
+            else
+                cmbProject.SelectedIndex = cmbProject.Items.Count-1;
             
 
             cmbGenre.Enabled = true;
@@ -210,26 +225,33 @@ namespace Client.UserControls
                 }
                 //pravimo objekat klase song iz iz izabranog reda
                 Song songOriginal = new Song();
-                DataGridViewRow selectedRow = dgvSong.SelectedRows[0];
+
+                //pokusavam sa loadedint
+                //DataGridViewRow selectedRow = dgvSong.SelectedRows[0];
                 //songOriginal = loadSong(Int32.Parse(selectedRow.Cells["Id"].Value.ToString()));
                 SearchValue sv = new SearchValue
                 {
                     Parameter = "Id",
-                    Value = Int32.Parse(selectedRow.Cells["Id"].Value.ToString()),
+                    //Value = Int32.Parse(selectedRow.Cells["Id"].Value.ToString()),
+                    Value = loadedIndexOfSong.ToString(),
                     Type = typeof(Song).AssemblyQualifiedName
                 };
                 songOriginal = (Song)LoadSongController.Instance.LoadSong(sv);
                 //pravimo objekat klase song iz podataka iz cmb-a, textboxova...
                 Song songNew = new Song();
                 songNew.Name = txtSongName.Text;
-                songNew.Id = Int32.Parse(txtSongId.Text);
+                songNew.Id = Int32.Parse(songOriginal.Id.ToString());
                 songNew.BPM = Int32.Parse(txtBPM.Text);
                 songNew.Artist = cmbArtist.SelectedItem as Artist;
                 songNew.MusicProducer = cmbMusicProducer.SelectedItem as MusicProducer;
-                songNew.MusicVideo = cmbMusicVideo.SelectedItem as MusicVideo;
-                songNew.Project = cmbProject.SelectedItem as Project;
+                MusicVideo m = (MusicVideo)cmbMusicVideo.SelectedItem;
+                if (m != null && !m.Name.Equals("(Empty)"))
+                    songNew.MusicVideo = cmbMusicVideo.SelectedItem as MusicVideo;
+                Project p = (Project)cmbProject.SelectedItem;
+                if (p != null && !p.Name.Equals("(Empty)"))
+                    songNew.Project = cmbProject.SelectedItem as Project;
                 songNew.Genre = (SongGenre)cmbGenre.SelectedItem;
-                songNew.CreationDate = (DateTime)selectedRow.Cells["CreationDate"].Value;
+                songNew.CreationDate = songOriginal.CreationDate;
                 //edituijemo
                 EditValue ev = new EditValue
                 {
@@ -239,10 +261,10 @@ namespace Client.UserControls
                 };
                 EditSongController.Instance.EditSong(ev);
                 //ucitavamo sve
-                int indexOfSelectedRow = selectedRow.Index;
+                
                 loadSongDgv();
                  
-                dgvSong.Rows[indexOfSelectedRow].Selected = true;
+                dgvSong.Rows[loadedIndexRowOfDgv].Selected = true;
             }
             catch (ServerDisconnectedException ex)
             {
@@ -292,58 +314,22 @@ namespace Client.UserControls
                     Type = typeof(Song).AssemblyQualifiedName
                 };
                 Song song = (Song)LoadSongController.Instance.LoadSong(sv);
+                
                 if(song == null)
                 {
                     MessageBox.Show("Unsuccessful load of a song", "Loading song unsuccessful..", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
                 
-
                 loadData(song);
-
+                loadedIndexOfSong = song.Id;
+                loadedIndexRowOfDgv = selectedRow.Index;
             }
             else
             {
                 MessageBox.Show("Unsuccessful load of a song", "Loading song unsuccessful..", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-        private BindingList<Song> upitSaJoinom()
-        {
-            //U loadSongDGV() ti je poziv metode, zovi metodu pri paljenju forme, msm da je tako najbolje
-            //prvi element po kom trazis
-            SearchValue svDirector = new SearchValue
-            {
-                Type = typeof(Director).AssemblyQualifiedName,
-                Parameter = "StageName",
-                Value = "stef4n"
-            };  
-            //trazis prvi element koji je vezan za tog
-            BindingList<Director> dList =(BindingList<Director>)SearchDirectorController.Instance.SearchDirector(svDirector);
-            Director d = dList.ElementAt(0);
-            int directorId = d.Id;
-            SearchValue svMusicVideo = new SearchValue
-            {
-                Type = typeof(MusicVideo).AssemblyQualifiedName,
-                Parameter = "Director",
-                Value = d.Id.ToString()
-            };
-            //uzimas sve elemente onog objekta koji treba da se prikaze pa filtriras
-            BindingList<MusicVideo> mvList = (BindingList<MusicVideo>)SearchMusicVideoController.Instance.SearchMusicVideo(svMusicVideo);
-            BindingList<Song> allSongs = (BindingList<Song>)LoadAllSongsController.Instance.LoadAllSongs();
-            BindingList<Song> songs = new BindingList<Song>();
-            //filtriras
-            foreach(Song s in allSongs)
-            {
-                foreach(MusicVideo mv in mvList)
-                {
-                    if(s.MusicVideo.Id == mv.Id)
-                    {
-                        songs.Add(s);
-                    }
-                }
-            }
-            return songs;
-
-        }
+        
     }
 }

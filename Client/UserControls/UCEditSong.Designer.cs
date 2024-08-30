@@ -28,8 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            lblId = new Label();
-            txtSongId = new TextBox();
             lblMusicProducer = new Label();
             cmbMusicProducer = new ComboBox();
             lblMusicVideo = new Label();
@@ -52,26 +50,10 @@
             ((System.ComponentModel.ISupportInitialize)dgvSong).BeginInit();
             SuspendLayout();
             // 
-            // lblId
-            // 
-            lblId.AutoSize = true;
-            lblId.Location = new Point(107, 28);
-            lblId.Name = "lblId";
-            lblId.Size = new Size(22, 20);
-            lblId.TabIndex = 50;
-            lblId.Text = "id";
-            // 
-            // txtSongId
-            // 
-            txtSongId.Location = new Point(39, 51);
-            txtSongId.Name = "txtSongId";
-            txtSongId.Size = new Size(151, 27);
-            txtSongId.TabIndex = 49;
-            // 
             // lblMusicProducer
             // 
             lblMusicProducer.AutoSize = true;
-            lblMusicProducer.Location = new Point(59, 335);
+            lblMusicProducer.Location = new Point(62, 300);
             lblMusicProducer.Name = "lblMusicProducer";
             lblMusicProducer.Size = new Size(111, 20);
             lblMusicProducer.TabIndex = 48;
@@ -80,7 +62,7 @@
             // cmbMusicProducer
             // 
             cmbMusicProducer.FormattingEnabled = true;
-            cmbMusicProducer.Location = new Point(39, 358);
+            cmbMusicProducer.Location = new Point(42, 323);
             cmbMusicProducer.Name = "cmbMusicProducer";
             cmbMusicProducer.Size = new Size(151, 28);
             cmbMusicProducer.TabIndex = 47;
@@ -88,7 +70,7 @@
             // lblMusicVideo
             // 
             lblMusicVideo.AutoSize = true;
-            lblMusicVideo.Location = new Point(74, 407);
+            lblMusicVideo.Location = new Point(77, 372);
             lblMusicVideo.Name = "lblMusicVideo";
             lblMusicVideo.Size = new Size(88, 20);
             lblMusicVideo.TabIndex = 46;
@@ -97,14 +79,14 @@
             // cmbMusicVideo
             // 
             cmbMusicVideo.FormattingEnabled = true;
-            cmbMusicVideo.Location = new Point(39, 430);
+            cmbMusicVideo.Location = new Point(42, 395);
             cmbMusicVideo.Name = "cmbMusicVideo";
             cmbMusicVideo.Size = new Size(151, 28);
             cmbMusicVideo.TabIndex = 45;
             // 
             // btnEditSong
             // 
-            btnEditSong.Location = new Point(39, 543);
+            btnEditSong.Location = new Point(42, 508);
             btnEditSong.Name = "btnEditSong";
             btnEditSong.Size = new Size(151, 29);
             btnEditSong.TabIndex = 44;
@@ -115,7 +97,7 @@
             // lblArtist
             // 
             lblArtist.AutoSize = true;
-            lblArtist.Location = new Point(90, 266);
+            lblArtist.Location = new Point(93, 231);
             lblArtist.Name = "lblArtist";
             lblArtist.Size = new Size(42, 20);
             lblArtist.TabIndex = 43;
@@ -124,7 +106,7 @@
             // cmbArtist
             // 
             cmbArtist.FormattingEnabled = true;
-            cmbArtist.Location = new Point(39, 289);
+            cmbArtist.Location = new Point(42, 254);
             cmbArtist.Name = "cmbArtist";
             cmbArtist.Size = new Size(151, 28);
             cmbArtist.TabIndex = 42;
@@ -132,7 +114,7 @@
             // lblSongGenre
             // 
             lblSongGenre.AutoSize = true;
-            lblSongGenre.Location = new Point(74, 201);
+            lblSongGenre.Location = new Point(77, 166);
             lblSongGenre.Name = "lblSongGenre";
             lblSongGenre.Size = new Size(83, 20);
             lblSongGenre.TabIndex = 41;
@@ -141,7 +123,7 @@
             // cmbGenre
             // 
             cmbGenre.FormattingEnabled = true;
-            cmbGenre.Location = new Point(39, 224);
+            cmbGenre.Location = new Point(42, 189);
             cmbGenre.Name = "cmbGenre";
             cmbGenre.Size = new Size(151, 28);
             cmbGenre.TabIndex = 40;
@@ -149,7 +131,7 @@
             // lblBPM
             // 
             lblBPM.AutoSize = true;
-            lblBPM.Location = new Point(90, 141);
+            lblBPM.Location = new Point(93, 106);
             lblBPM.Name = "lblBPM";
             lblBPM.Size = new Size(39, 20);
             lblBPM.TabIndex = 39;
@@ -157,7 +139,7 @@
             // 
             // txtBPM
             // 
-            txtBPM.Location = new Point(39, 164);
+            txtBPM.Location = new Point(42, 129);
             txtBPM.Name = "txtBPM";
             txtBPM.Size = new Size(151, 27);
             txtBPM.TabIndex = 38;
@@ -165,7 +147,7 @@
             // lblName
             // 
             lblName.AutoSize = true;
-            lblName.Location = new Point(75, 81);
+            lblName.Location = new Point(78, 46);
             lblName.Name = "lblName";
             lblName.Size = new Size(82, 20);
             lblName.TabIndex = 37;
@@ -173,7 +155,7 @@
             // 
             // txtSongName
             // 
-            txtSongName.Location = new Point(39, 104);
+            txtSongName.Location = new Point(42, 69);
             txtSongName.Name = "txtSongName";
             txtSongName.Size = new Size(151, 27);
             txtSongName.TabIndex = 36;
@@ -221,7 +203,7 @@
             // lblProject
             // 
             lblProject.AutoSize = true;
-            lblProject.Location = new Point(88, 474);
+            lblProject.Location = new Point(91, 439);
             lblProject.Name = "lblProject";
             lblProject.Size = new Size(56, 20);
             lblProject.TabIndex = 52;
@@ -230,7 +212,7 @@
             // cmbProject
             // 
             cmbProject.FormattingEnabled = true;
-            cmbProject.Location = new Point(39, 499);
+            cmbProject.Location = new Point(42, 464);
             cmbProject.Name = "cmbProject";
             cmbProject.Size = new Size(151, 28);
             cmbProject.TabIndex = 51;
@@ -241,8 +223,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(lblProject);
             Controls.Add(cmbProject);
-            Controls.Add(lblId);
-            Controls.Add(txtSongId);
             Controls.Add(lblMusicProducer);
             Controls.Add(cmbMusicProducer);
             Controls.Add(lblMusicVideo);
@@ -268,9 +248,6 @@
         }
 
         #endregion
-
-        private Label lblId;
-        private TextBox txtSongId;
         private Label lblMusicProducer;
         private ComboBox cmbMusicProducer;
         private Label lblMusicVideo;

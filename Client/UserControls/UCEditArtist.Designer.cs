@@ -38,8 +38,6 @@
             txtLastName = new TextBox();
             txtStageName = new TextBox();
             lblFirstName = new Label();
-            lblId = new Label();
-            txtId = new TextBox();
             txtFirstName = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dgvArtist).BeginInit();
             SuspendLayout();
@@ -73,7 +71,7 @@
             // 
             // btnEdit
             // 
-            btnEdit.Location = new Point(45, 370);
+            btnEdit.Location = new Point(44, 342);
             btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(125, 29);
             btnEdit.TabIndex = 24;
@@ -97,7 +95,7 @@
             // lblStageName
             // 
             lblStageName.AutoSize = true;
-            lblStageName.Location = new Point(61, 304);
+            lblStageName.Location = new Point(60, 276);
             lblStageName.Name = "lblStageName";
             lblStageName.Size = new Size(86, 20);
             lblStageName.TabIndex = 22;
@@ -106,7 +104,7 @@
             // lblLastName
             // 
             lblLastName.AutoSize = true;
-            lblLastName.Location = new Point(72, 241);
+            lblLastName.Location = new Point(71, 213);
             lblLastName.Name = "lblLastName";
             lblLastName.Size = new Size(73, 20);
             lblLastName.TabIndex = 21;
@@ -114,14 +112,14 @@
             // 
             // txtLastName
             // 
-            txtLastName.Location = new Point(45, 264);
+            txtLastName.Location = new Point(44, 236);
             txtLastName.Name = "txtLastName";
             txtLastName.Size = new Size(125, 27);
             txtLastName.TabIndex = 20;
             // 
             // txtStageName
             // 
-            txtStageName.Location = new Point(45, 327);
+            txtStageName.Location = new Point(44, 299);
             txtStageName.Name = "txtStageName";
             txtStageName.Size = new Size(125, 27);
             txtStageName.TabIndex = 19;
@@ -129,31 +127,15 @@
             // lblFirstName
             // 
             lblFirstName.AutoSize = true;
-            lblFirstName.Location = new Point(72, 179);
+            lblFirstName.Location = new Point(71, 151);
             lblFirstName.Name = "lblFirstName";
             lblFirstName.Size = new Size(75, 20);
             lblFirstName.TabIndex = 18;
             lblFirstName.Text = "first name";
             // 
-            // lblId
-            // 
-            lblId.AutoSize = true;
-            lblId.Location = new Point(98, 117);
-            lblId.Name = "lblId";
-            lblId.Size = new Size(22, 20);
-            lblId.TabIndex = 17;
-            lblId.Text = "id";
-            // 
-            // txtId
-            // 
-            txtId.Location = new Point(45, 140);
-            txtId.Name = "txtId";
-            txtId.Size = new Size(125, 27);
-            txtId.TabIndex = 16;
-            // 
             // txtFirstName
             // 
-            txtFirstName.Location = new Point(45, 202);
+            txtFirstName.Location = new Point(44, 174);
             txtFirstName.Name = "txtFirstName";
             txtFirstName.Size = new Size(125, 27);
             txtFirstName.TabIndex = 15;
@@ -172,8 +154,6 @@
             Controls.Add(txtLastName);
             Controls.Add(txtStageName);
             Controls.Add(lblFirstName);
-            Controls.Add(lblId);
-            Controls.Add(txtId);
             Controls.Add(txtFirstName);
             Name = "UCEditArtist";
             Size = new Size(888, 533);
@@ -194,8 +174,6 @@
         private TextBox txtLastName;
         private TextBox txtStageName;
         private Label lblFirstName;
-        private Label lblId;
-        private TextBox txtId;
         private TextBox txtFirstName;
     }
 }

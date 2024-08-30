@@ -16,6 +16,8 @@ namespace Client.UserControls
 {
     public partial class UCEditProject : UserControl
     {
+        public int loadedIndexOfProject;
+        public int loadedIndexRowOfDgv;
         public UCEditProject()
         {
             try
@@ -25,7 +27,7 @@ namespace Client.UserControls
                 loadMusicProducerCMB();               
                 loadProjectDgv();
 
-                txtId.Enabled = false;
+                //txtId.Enabled = false;
                 txtName.Enabled = false;
                 rtxtDescription.Enabled = false;
                 cmbArtist.Enabled = false;
@@ -153,7 +155,7 @@ namespace Client.UserControls
         private void loadProjectDetails(Project project)
         {
 
-            txtId.Text = project.Id.ToString();
+            //txtId.Text = project.Id.ToString();
             txtName.Text = project.Name;
             txtName.Enabled = true;
             rtxtDescription.Text = project.Description;
@@ -207,25 +209,24 @@ namespace Client.UserControls
                     MessageBox.Show("Unsuccessful edit of a project!", "System was unsuccessful in editing a project", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                //pravimo novi projekat sa podacima novim
-                DataGridViewRow dgvProjectRow = dgvProject.SelectedRows[0];
-                int selectedProjectIndex = dgvProjectRow.Index;
-                Project newProject = new Project();
-                newProject.Id = Int32.Parse(txtId.Text);
-                newProject.Name = txtName.Text;
-                newProject.Description = rtxtDescription.Text;
-                newProject.Artist = cmbArtist.SelectedItem as Artist;
-                newProject.MusicProducer = cmbMusicProducer.SelectedItem as MusicProducer;
-                newProject.CreationDate = (DateTime)dgvProjectRow.Cells["CreationDate"].Value;
+                
                 //uzimamo originalan projekat
                 //Project originalProject = loadProject(Int32.Parse(dgvProjectRow.Cells["Id"].Value.ToString()));
                 SearchValue sv = new SearchValue
                 {
                     Parameter = "Id",
-                    Value = Int32.Parse(dgvProjectRow.Cells["Id"].Value.ToString()),
+                    Value = loadedIndexOfProject,
                     Type = typeof(Project).AssemblyQualifiedName
                 };
                 Project originalProject = (Project)LoadProjectController.Instance.LoadProject(sv);
+                //pravimo novi projekat sa podacima novim
+                Project newProject = new Project();
+                newProject.Id = loadedIndexOfProject;
+                newProject.Name = txtName.Text;
+                newProject.Description = rtxtDescription.Text;
+                newProject.Artist = cmbArtist.SelectedItem as Artist;
+                newProject.MusicProducer = cmbMusicProducer.SelectedItem as MusicProducer;
+                newProject.CreationDate = originalProject.CreationDate;
                 //editujemo
                 EditValue evProject = new EditValue();
                 evProject.EditedValue = newProject;
@@ -293,7 +294,7 @@ namespace Client.UserControls
                 loadProjectDgv();
                 dgvSongsOnProject.DataSource = SearchSongController.Instance.SearchSong(sValueForSongsOnProject);
                 dgvSongsOnProjectCleanup();
-                dgvProject.Rows[selectedProjectIndex].Selected = true;
+                dgvProject.Rows[loadedIndexRowOfDgv].Selected = true;
                 List<int> selectedIndexes = new List<int>();
                 foreach (DataGridViewRow row in dgvSongsOnProject.Rows)
                 {
@@ -376,11 +377,13 @@ namespace Client.UserControls
                 }
                 MessageBox.Show("Successful load of project", "Load of project successful..", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 loadProjectDetails(project);
+                loadedIndexOfProject = project.Id;
+                loadedIndexRowOfDgv = selectedRow.Index;
                 //
                 //ucitavamo pesme projekta
                 SearchValue projectSongs = new SearchValue()
                 {
-                    Value = txtId.Text,
+                    Value = project.Id,
                     Parameter = "Project",
                     Type = typeof(Song).AssemblyQualifiedName
                 };
@@ -457,9 +460,11 @@ namespace Client.UserControls
                 };
                 EditSongController.Instance.EditSong(ev);
                 //ucitavanje pesama na projektu
+                DataGridViewRow selectedProject = dgvProject.SelectedRows[0];
                 SearchValue evSongsOnProject = new SearchValue()
                 {
-                    Value = txtId.Text,
+                    //Value = selectedProject.Cells["Id"].Value.ToString(),
+                    Value=loadedIndexOfProject,
                     Parameter = "Project",
                     Type = typeof(Song).AssemblyQualifiedName
                 };

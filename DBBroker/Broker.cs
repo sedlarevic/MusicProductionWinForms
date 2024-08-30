@@ -197,7 +197,12 @@ namespace DBBroker
                                 }
                             }
                         }
-
+                        else
+                        {
+                            if (property.PropertyType.IsEnum)
+                                paramValue = paramValue.ToString();
+                        }
+                        
                         //dodajemo SQL parametar
                         cmd.Parameters.AddWithValue(paramName, paramValue ?? DBNull.Value);
                     }
@@ -349,16 +354,26 @@ namespace DBBroker
             //            : $"WHERE {searchValue.Parameter} LIKE '%{searchValue.Value}%'";
             //}
 
-            if (string.IsNullOrEmpty(searchValue.Value.ToString()))
-                searchQuery = string.Empty;
+            //OVO JE DO SAD RADILO BEZ NULLA!           
+            //if (string.IsNullOrEmpty(searchValue.Value.ToString()))
+            //    searchQuery = string.Empty;
+            //else
+            //    searchQuery = int.TryParse(searchValue.Value.ToString(), out _)
+            //        ? $"WHERE {searchValue.Parameter} LIKE '{searchValue.Value}'"
+            //        : $"WHERE {searchValue.Parameter} LIKE '%{searchValue.Value}%'";
+            if (searchValue.Value == null)
+                searchQuery = $"WHERE {searchValue.Parameter} IS NULL";
             else
-                searchQuery = int.TryParse(searchValue.Value.ToString(), out _)
-                    ? $"WHERE {searchValue.Parameter} LIKE '{searchValue.Value}'"
-                    : $"WHERE {searchValue.Parameter} LIKE '%{searchValue.Value}%'";
-
+            {
+                if (searchValue.Value == "")
+                    searchQuery = string.Empty;
+                else
+                    searchQuery = int.TryParse(searchValue.Value.ToString(), out _)
+                        ? $"WHERE {searchValue.Parameter} LIKE '{searchValue.Value}'"
+                        : $"WHERE {searchValue.Parameter} LIKE '%{searchValue.Value}%'";
+            }
+            
             // Pravimo query za search
-
-
             cmd.CommandText = $"SELECT * FROM {obj.TableName} {searchQuery}";
             SqlDataReader reader = cmd.ExecuteReader();
 

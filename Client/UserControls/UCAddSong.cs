@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Client.UserControls
 {
@@ -25,12 +26,15 @@ namespace Client.UserControls
                 loadGenresCMB();
                 loadMusicVideoCMB();
                 cmbMusicVideo.DisplayMember = "Name";
-                cmbMusicVideo.SelectedIndex = -1;
+                cmbMusicVideo.SelectedIndex = cmbMusicVideo.Items.Count - 1;
+               
                 loadMusicProducerCMB();
                 cmbMusicProducer.DisplayMember = "StageName";
                 loadProjectCMB();
-                cmbProject.DisplayMember = "Name";
-                cmbProject.SelectedIndex = -1;
+                cmbProject.DisplayMember = "Name";              
+                cmbProject.SelectedIndex = cmbProject.Items.Count - 1;
+                
+
             }
             catch (ServerDisconnectedException ex)
             {
@@ -89,8 +93,10 @@ namespace Client.UserControls
             cmbArtist.DataSource = LoadAllArtistsController.Instance.LoadAllArtists();
         }
         private void loadMusicVideoCMB()
-        {     
-            cmbMusicVideo.DataSource = LoadAllMusicVideosController.Instance.LoadAllMusicVideos();
+        {   
+            BindingList<MusicVideo> musicVideos = (BindingList<MusicVideo>)LoadAllMusicVideosController.Instance.LoadAllMusicVideos();
+            musicVideos.Add(new MusicVideo() { Name = "(Empty)"});
+            cmbMusicVideo.DataSource = musicVideos; 
         }
         private void loadGenresCMB()
         {
@@ -101,8 +107,10 @@ namespace Client.UserControls
             cmbMusicProducer.DataSource = LoadAllMusicProducersController.Instance.LoadAllMusicProducers();
         }
         private void loadProjectCMB()
-        {          
-            cmbProject.DataSource = LoadAllProjectsController.Instance.LoadAllProjects();
+        {
+            BindingList<Project> projects = (BindingList<Project>)LoadAllProjectsController.Instance.LoadAllProjects();
+            projects.Add(new Project() { Name = "(Empty)"});
+            cmbProject.DataSource = projects;
         }
         private void btnAddSong_Click(object sender, EventArgs e)
         {
@@ -119,10 +127,14 @@ namespace Client.UserControls
                 s.BPM = Int32.Parse(txtBPM.Text);
                 s.CreationDate = DateTime.Now;
                 s.MusicProducer = (MusicProducer)cmbMusicProducer.SelectedItem;
-                if (cmbMusicVideo.SelectedItem != null)
-                    s.MusicVideo = (MusicVideo)cmbMusicVideo.SelectedItem;
                 s.Artist = (Artist)cmbArtist.SelectedItem;
-                if (cmbProject.SelectedItem != null)
+                s.Genre = (SongGenre)cmbGenre.SelectedItem;
+                MusicVideo m = (MusicVideo)cmbMusicVideo.SelectedItem;
+                if (m != null && !m.Name.Equals("(Empty)"))
+                    s.MusicVideo = (MusicVideo)cmbMusicVideo.SelectedItem;
+                
+                Project p = (Project)cmbProject.SelectedItem;
+                if (p != null && !p.Name.Equals("(Empty)"))
                     s.Project = (Project)cmbProject.SelectedItem;
                 //kontroler za add song
                 AddSongController.Instance.AddSong(s);

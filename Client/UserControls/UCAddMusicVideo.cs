@@ -75,8 +75,14 @@ namespace Client.UserControls
             return b1 && b2 && b3;
         }
         private void loadSongDgv()
-        {        
-            dgvSong.DataSource = LoadAllSongsController.Instance.LoadAllSongs();
+        {
+            SearchValue sv = new SearchValue()
+            {
+                Type = typeof(Song).AssemblyQualifiedName,
+                Value = null,
+                Parameter = "MusicVideo"
+            };
+            dgvSong.DataSource = SearchSongController.Instance.SearchSong(sv);
             dgvSongCleanup();
         }
         private void loadDirectorCMB()

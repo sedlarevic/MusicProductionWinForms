@@ -33,8 +33,6 @@
             btnSearch = new Button();
             txtSearch = new TextBox();
             dgvSong = new DataGridView();
-            lblId = new Label();
-            txtId = new TextBox();
             lblArtist = new Label();
             cmbArtist = new ComboBox();
             lblName = new Label();
@@ -102,26 +100,10 @@
             dgvSong.Size = new Size(627, 274);
             dgvSong.TabIndex = 43;
             // 
-            // lblId
-            // 
-            lblId.AutoSize = true;
-            lblId.Location = new Point(135, 86);
-            lblId.Name = "lblId";
-            lblId.Size = new Size(22, 20);
-            lblId.TabIndex = 42;
-            lblId.Text = "id";
-            // 
-            // txtId
-            // 
-            txtId.Location = new Point(70, 109);
-            txtId.Name = "txtId";
-            txtId.Size = new Size(159, 27);
-            txtId.TabIndex = 41;
-            // 
             // lblArtist
             // 
             lblArtist.AutoSize = true;
-            lblArtist.Location = new Point(126, 415);
+            lblArtist.Location = new Point(128, 370);
             lblArtist.Name = "lblArtist";
             lblArtist.Size = new Size(42, 20);
             lblArtist.TabIndex = 40;
@@ -130,7 +112,7 @@
             // cmbArtist
             // 
             cmbArtist.FormattingEnabled = true;
-            cmbArtist.Location = new Point(34, 438);
+            cmbArtist.Location = new Point(36, 393);
             cmbArtist.Name = "cmbArtist";
             cmbArtist.Size = new Size(220, 28);
             cmbArtist.TabIndex = 39;
@@ -138,7 +120,7 @@
             // lblName
             // 
             lblName.AutoSize = true;
-            lblName.Location = new Point(122, 139);
+            lblName.Location = new Point(124, 94);
             lblName.Name = "lblName";
             lblName.Size = new Size(46, 20);
             lblName.TabIndex = 38;
@@ -146,14 +128,14 @@
             // 
             // txtName
             // 
-            txtName.Location = new Point(70, 162);
+            txtName.Location = new Point(72, 117);
             txtName.Name = "txtName";
             txtName.Size = new Size(159, 27);
             txtName.TabIndex = 37;
             // 
             // btnEdit
             // 
-            btnEdit.Location = new Point(34, 486);
+            btnEdit.Location = new Point(36, 441);
             btnEdit.Name = "btnEdit";
             btnEdit.Size = new Size(220, 29);
             btnEdit.TabIndex = 36;
@@ -164,7 +146,7 @@
             // lblMusicProducer
             // 
             lblMusicProducer.AutoSize = true;
-            lblMusicProducer.Location = new Point(92, 348);
+            lblMusicProducer.Location = new Point(94, 303);
             lblMusicProducer.Name = "lblMusicProducer";
             lblMusicProducer.Size = new Size(111, 20);
             lblMusicProducer.TabIndex = 35;
@@ -173,7 +155,7 @@
             // cmbMusicProducer
             // 
             cmbMusicProducer.FormattingEnabled = true;
-            cmbMusicProducer.Location = new Point(34, 371);
+            cmbMusicProducer.Location = new Point(36, 326);
             cmbMusicProducer.Name = "cmbMusicProducer";
             cmbMusicProducer.Size = new Size(220, 28);
             cmbMusicProducer.TabIndex = 34;
@@ -181,7 +163,7 @@
             // lblDescription
             // 
             lblDescription.AutoSize = true;
-            lblDescription.Location = new Point(101, 192);
+            lblDescription.Location = new Point(103, 147);
             lblDescription.Name = "lblDescription";
             lblDescription.Size = new Size(83, 20);
             lblDescription.TabIndex = 33;
@@ -189,7 +171,7 @@
             // 
             // rtxtDescription
             // 
-            rtxtDescription.Location = new Point(34, 215);
+            rtxtDescription.Location = new Point(36, 170);
             rtxtDescription.Name = "rtxtDescription";
             rtxtDescription.Size = new Size(220, 120);
             rtxtDescription.TabIndex = 32;
@@ -254,8 +236,6 @@
             Controls.Add(btnSearch);
             Controls.Add(txtSearch);
             Controls.Add(dgvSong);
-            Controls.Add(lblId);
-            Controls.Add(txtId);
             Controls.Add(lblArtist);
             Controls.Add(cmbArtist);
             Controls.Add(lblName);
@@ -282,8 +262,6 @@
         private Button btnSearch;
         private TextBox txtSearch;
         private DataGridView dgvSong;
-        private Label lblId;
-        private TextBox txtId;
         private Label lblArtist;
         private ComboBox cmbArtist;
         private Label lblName;

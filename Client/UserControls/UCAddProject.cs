@@ -94,8 +94,15 @@ namespace Client.UserControls
             cmbMusicProducer.DisplayMember = "StageName";
         }
         private void loadSongDgv()
-        {          
-            dgvSong.DataSource = LoadAllSongsController.Instance.LoadAllSongs();
+        {
+            //dgvSong.DataSource = LoadAllSongsController.Instance.LoadAllSongs();
+            SearchValue sv = new SearchValue()
+            {
+                Type = typeof(Song).AssemblyQualifiedName,
+                Value = null,
+                Parameter = "Project"
+            };
+            dgvSong.DataSource = SearchSongController.Instance.SearchSong(sv);
             dgvSongCleanup();
         }
         private void btnAddProject_Click(object sender, EventArgs e)
